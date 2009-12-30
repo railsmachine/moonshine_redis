@@ -1,0 +1,14 @@
+= Moonshine_Redis
+
+=== A plugin for Moonshine[http://github.com/railsmachine/moonshine]
+
+A plugin for installing and managing redis.
+
+=== Instructions
+
+* <tt>script/plugin install git://github.com/ACCOUNT/moonshine_redis.git</tt>
+* Configure settings if needed
+    configure(:redis => {:foo => true})
+* Include the plugin and recipe(s) in your Moonshine manifest
+    plugin :redis
+    recipe :redis
