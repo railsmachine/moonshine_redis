@@ -1,14 +1,30 @@
-= Moonshine_Redis
+= Moonshine Redis
 
 === A plugin for Moonshine[http://github.com/railsmachine/moonshine]
 
-A plugin for installing and managing redis.
+A plugin for installing and managing Redis[http://code.google.com/p/redis/], an
+advanced persistent key-value store. Currently this, like Moonshine's Rails
+recipes in general, is Ubuntu/Debian-specific.
 
 === Instructions
 
-* <tt>script/plugin install git://github.com/ACCOUNT/moonshine_redis.git</tt>
-* Configure settings if needed
-    configure(:redis => {:foo => true})
+* <tt>script/plugin install git://github.com/railsmachine/moonshine_redis.git</tt>
+* Configure settings if needed. You may specify:
+  * Package architecture. Default is amd64.
+  * <tt>enable_on_boot</tt> in case you want to disable starting the service on
+    boot at system-level (useful if you want god to do it instead, for instance).
+    Default is true.
+  * <tt>ruby_client</tt> to optionally install the given version of the
+    <tt>redis</tt> client library as a rubygem. This also accepts
+    <tt>latest</tt> as a value, which will install updated versions if
+    available each time your Moonshine manifest is applied. Default is none.
+  For example, in <tt>moonshine.yml</tt>:
+
+    :redis:
+      :arch: i386
+      :ruby_client: 0.1.1
+      :enable_on_boot: false
+
 * Include the plugin and recipe(s) in your Moonshine manifest
     plugin :redis
     recipe :redis
