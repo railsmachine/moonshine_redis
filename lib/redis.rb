@@ -1,13 +1,12 @@
 module Redis
 
   # Define options for this plugin via the <tt>configure</tt> method
-  # in your application manifest:
+  # in your application manifest (or in moonshine.yml):
   #
   #   configure(:redis => { :arch => 'i386', :ruby_client => :latest })
   #
-  # Then include the plugin and call the recipe(s) you need:
+  # Then include call the recipe(s) you need:
   #
-  #  plugin :redis
   #  recipe :redis
   def redis(options={})
     options = { :enable_on_boot => true }.merge(options)
@@ -15,14 +14,14 @@ module Redis
 
     package 'wget', :ensure => :installed
     exec 'download redis',
-      :command => "wget http://http.us.debian.org/debian/pool/main/r/redis/redis-server_1.2.0-1_#{arch}.deb",
+      :command => "wget http://http.us.debian.org/debian/pool/main/r/redis/redis-server_1.2.6-1_#{arch}.deb",
       :require => package('wget'),
       :cwd     => '/usr/local/src',
-      :creates => "/usr/local/src/redis-server_1.2.0-1_#{arch}.deb"
+      :creates => "/usr/local/src/redis-server_1.2.6-1_#{arch}.deb"
     package 'redis-server',
       :ensure   => :installed,
       :provider => :dpkg,
-      :source   => "/usr/local/src/redis-server_1.2.0-1_#{arch}.deb",
+      :source   => "/usr/local/src/redis-server_1.2.6-1_#{arch}.deb",
       :require  => exec('download redis')
 
     service 'redis-server',
