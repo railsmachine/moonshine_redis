@@ -5,7 +5,7 @@ module Redis
   #
   #   configure(:redis => { :arch => 'i386', :ruby_client => :latest })
   #
-  # Then include call the recipe(s) you need:
+  # Then call the recipe(s) you need:
   #
   #  recipe :redis
   def redis(options={})

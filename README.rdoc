@@ -22,9 +22,8 @@ recipes in general, is Ubuntu/Debian-specific.
 
     :redis:
       :arch: i386
-      :ruby_client: 0.1.1
+      :ruby_client: 1.0.7
       :enable_on_boot: false
 
-* Include the plugin and recipe(s) in your Moonshine manifest
-    plugin :redis
+* Include the recipe in your Moonshine manifest
     recipe :redis
