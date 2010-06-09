@@ -1,3 +1,3 @@
-require "#{File.dirname(__FILE__)}/../lib/redis.rb"
+require "#{File.dirname(__FILE__)}/../lib/moonshine/redis.rb"
 
-include Redis
+include Moonshine::Redis
