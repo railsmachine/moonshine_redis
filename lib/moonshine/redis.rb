@@ -34,7 +34,7 @@ module Moonshine
         :ensure  => :present,
         :mode    => '644',
         :notify  => service('redis-server'),
-        :content => template(File.join(File.dirname(__FILE__), '..', 'templates', 'redis.conf.erb'), binding)
+        :content => template(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'redis.conf.erb'), binding)
 
       # install client gem if specified
       if options[:ruby_client]
