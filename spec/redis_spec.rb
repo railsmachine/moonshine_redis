@@ -1,7 +1,6 @@
 require File.join(File.dirname(__FILE__), 'spec_helper.rb')
 
 class RedisManifest < Moonshine::Manifest::Rails
-  plugin :redis
 end
 
 describe "A manifest with the Redis plugin" do
