@@ -4,7 +4,7 @@ module Moonshine
     # Define options for this plugin via the <tt>configure</tt> method
     # in your application manifest (or in moonshine.yml):
     #
-    #   configure(:redis => { :arch => 'i386', :ruby_client => :latest })
+    #   configure(:redis => { :version => '2.0.1-1', :arch => 'i386', :ruby_client => :latest })
     #
     # Then call the recipe(s) you need:
     #
@@ -12,17 +12,18 @@ module Moonshine
     def redis(options={})
       options = { :enable_on_boot => true }.merge(options)
       arch = options[:arch] || 'amd64'
+      version = options[:version] || '2.0.1-2'
 
       package 'wget', :ensure => :installed
       exec 'download redis',
-        :command => "wget http://http.us.debian.org/debian/pool/main/r/redis/redis-server_1.2.6-1_#{arch}.deb",
+        :command => "wget http://http.us.debian.org/debian/pool/main/r/redis/redis-server_#{version}_#{arch}.deb",
         :require => package('wget'),
         :cwd     => '/usr/local/src',
-        :creates => "/usr/local/src/redis-server_1.2.6-1_#{arch}.deb"
+        :creates => "/usr/local/src/redis-server_#{version}_#{arch}.deb"
       package 'redis-server',
         :ensure   => :installed,
         :provider => :dpkg,
-        :source   => "/usr/local/src/redis-server_1.2.6-1_#{arch}.deb",
+        :source   => "/usr/local/src/redis-server_#{version}_#{arch}.deb",
         :require  => exec('download redis')
 
       service 'redis-server',

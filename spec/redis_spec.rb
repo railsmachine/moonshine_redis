@@ -11,6 +11,12 @@ describe "A manifest with the Redis plugin" do
     @manifest.redis
   end
 
+  it "should download the specified version, defaulting to 2.0.1-2" do
+    @manifest.execs['download redis'].command.should match(/2\.0\.1-2/)
+    @manifest.redis(:version => '1.2.6-1')
+    @manifest.execs['download redis'].command.should match(/1\.2\.6-1/)
+  end
+
   it "should download the redis package for the specified arch, defaulting to amd64" do
     @manifest.execs['download redis'].command.should match(/amd64/)
     @manifest.redis(:arch => 'i386')

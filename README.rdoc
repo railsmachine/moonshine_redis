@@ -11,6 +11,7 @@ recipes in general, is Ubuntu/Debian-specific.
 * <tt>script/plugin install git://github.com/railsmachine/moonshine_redis.git</tt>
 * Configure settings if needed. You may specify:
   * Package architecture. Default is amd64.
+  * Version. Default is 2.0.1-2. Versions are those as determined by Debian in [this repo](http://http.us.debian.org/debian/pool/main/r/redis/).
   * <tt>enable_on_boot</tt> in case you want to disable starting the service on
     boot at system-level (useful if you want god to do it instead, for instance).
     Default is true.
@@ -21,6 +22,7 @@ recipes in general, is Ubuntu/Debian-specific.
   For example, in <tt>moonshine.yml</tt>:
 
     :redis:
+      :version: 2.0.1-2
       :arch: i386
       :ruby_client: 1.0.7
       :enable_on_boot: false
