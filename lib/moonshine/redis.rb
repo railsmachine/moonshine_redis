@@ -10,7 +10,7 @@ module Moonshine
     #
     #  recipe :redis
     def redis(options={})
-      options = { :enable_on_boot => true }.merge(options)
+      options = HashWithIndifferentAccess.new({ :enable_on_boot => true }.merge(options))
       arch = options[:arch] || Facter.architecture == 'i386' ? 'i386' : 'amd64' # FIXME, could be smarter, but, at least it's configurable
       version = options[:version] || '2.0.1-2'
 
