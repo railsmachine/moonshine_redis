@@ -30,25 +30,21 @@ module Moonshine
         :require => exec('untar redis'),
         :cwd     => "/usr/local/src/redis-#{options[:version]}",
         :creates => "/usr/local/src/redis-#{options[:version]}/redis-server"
-      exec 'shutdown redis',
-        :command => "redis-cli shutdown || true",
-        :timeout => 0,
-        :require => exec('compile redis'),
-        :refreshonly => true
       package 'redis-server',
         :ensure   => :absent,
         :provider => :dpkg,
-        :require   => exec('shutdown redis')
+        :require   => exec('compile redis')
       exec 'install redis',
-        :command => "sudo make install",
-        :require => [exec('shutdown redis'), package('redis-server')],
+        :command => "redis-cli shutdown; sudo make install",
+        :timeout => 0,
+        :require => package('redis-server'),
         :cwd     => "/usr/local/src/redis-#{options[:version]}",
         :unless => "/usr/local/bin/redis-server --version | grep 'Redis server version #{options[:version]}$'"
 
       service 'redis-server',
         :ensure  => :running,
         :enable  => options[:enable_on_boot],
-        :require => [package('redis-server'), exec('install redis'), file('/etc/init.d/redis-server')]
+        :require => [exec('install redis'), file('/etc/init.d/redis-server')]
 
       file '/etc/init.d/redis-server',
         :ensure  => :present,
