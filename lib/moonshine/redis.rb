@@ -40,7 +40,7 @@ module Moonshine
         :provider => :dpkg,
         :require   => exec('shutdown redis')
       exec 'install redis',
-        :command => "make install",
+        :command => "sudo make install",
         :require => package('redis-server'),
         :cwd     => "/usr/local/src/redis-#{options[:version]}",
         :unless => "/usr/local/bin/redis-server --version | grep 'Redis server version #{options[:version]}$'"
