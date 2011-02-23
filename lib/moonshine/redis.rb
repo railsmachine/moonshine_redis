@@ -29,7 +29,7 @@ module Moonshine
         :command => make_command,
         :require => exec('untar redis'),
         :cwd     => "/usr/local/src/redis-#{options[:version]}",
-        :creates => "/usr/local/src/redis-#{options[:version]}/redis-server"
+        :creates => "/usr/local/src/redis-#{options[:version]}/src/redis-server"
       package 'redis-server',
         :ensure   => :absent,
         :provider => :dpkg,
@@ -39,7 +39,7 @@ module Moonshine
         :timeout => 0,
         :require => package('redis-server'),
         :cwd     => "/usr/local/src/redis-#{options[:version]}",
-        :unless => "/usr/local/bin/redis-server --version | grep 'Redis server version #{options[:version]}$'"
+        :unless => "/usr/local/bin/redis-server --version | grep 'Redis server version #{options[:version]}'"
 
       service 'redis-server',
         :ensure  => :running,
