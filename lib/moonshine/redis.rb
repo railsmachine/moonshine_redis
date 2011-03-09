@@ -49,10 +49,34 @@ module Moonshine
         :shell => '/bin/false',
         :require => group('redis')
 
+      file '/var/lib/redis',
+        :ensure => :directory,
+        :owner  => 'redis',
+        :group  => 'redis',
+        :mode   => '755'
+
+      file '/var/log/redis',
+        :ensure => :directory,
+        :owner  => 'redis',
+        :group  => 'redis',
+        :mode   => '755'
+
+      file '/var/log/redis/redis-server.log',
+        :ensure => :present,
+        :owner  => 'redis',
+        :group  => 'redis',
+        :mode   => '660'
+
       service 'redis-server',
         :ensure  => :running,
         :enable  => options[:enable_on_boot],
-        :require => [exec('install redis'), file('/etc/init.d/redis-server'), user('redis'), group('redis')]
+        :require => [
+          exec('install redis'),
+          file('/etc/init.d/redis-server'),
+          user('redis'), group('redis'),
+          file('/var/lib/redis'),
+          file('/var/log/redis')
+        ]
 
       file '/etc/init.d/redis-server',
         :ensure  => :present,
