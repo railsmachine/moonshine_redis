@@ -41,10 +41,18 @@ module Moonshine
         :cwd     => "/usr/local/src/redis-#{options[:version]}",
         :unless => "test -f /usr/local/bin/redis-server && /usr/local/bin/redis-server --version | grep 'Redis server version #{options[:version]}'"
 
+      group 'redis', :ensure =>:present
+      user 'redis',
+        :gid => 'redis',
+        :comment => 'redis server',
+        :home => '/var/lib/redis',
+        :shell => '/bin/false',
+        :require => group('redis')
+
       service 'redis-server',
         :ensure  => :running,
         :enable  => options[:enable_on_boot],
-        :require => [exec('install redis'), file('/etc/init.d/redis-server')]
+        :require => [exec('install redis'), file('/etc/init.d/redis-server'), user('redis'), group('redis')]
 
       file '/etc/init.d/redis-server',
         :ensure  => :present,
