@@ -12,7 +12,7 @@ module Moonshine
     def redis(options={})
       options = HashWithIndifferentAccess.new({ :enable_on_boot => true }.merge(options))
       make_command = options[:arch] || Facter.architecture == 'i386' ? 'make 32bit' : 'make'
-      version = options[:version] || '2.2.0'
+      version = options[:version] || '2.2.2'
 
       package 'wget', :ensure => :installed
       exec 'download redis',
