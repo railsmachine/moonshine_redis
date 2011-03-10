@@ -71,4 +71,15 @@ describe "A manifest with the Redis plugin" do
     redis_log_directory[:mode].should == '755'
   end
 
+  it "should create a redis user" do
+    redis_user = @manifest.users['redis']
+    redis_user.should_not be(nil)
+    redis_user[:home].should == '/var/lib/redis'
+    redis_user[:shell].should == '/bin/false'
+    redis_user[:gid].should == 'redis'
+  end
+
+  it "should create a redis group" do
+    @manifest.groups.should include('redis')
+  end
 end
