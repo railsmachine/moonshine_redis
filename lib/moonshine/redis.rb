@@ -16,20 +16,20 @@ module Moonshine
 
       package 'wget', :ensure => :installed
       exec 'download redis',
-        :command => "wget http://redis.googlecode.com/files/redis-#{options[:version]}.tar.gz",
+        :command => "wget http://redis.googlecode.com/files/redis-#{version}.tar.gz",
         :require => package('wget'),
         :cwd     => '/usr/local/src',
-        :creates => "/usr/local/src/redis-#{options[:version]}.tar.gz"
+        :creates => "/usr/local/src/redis-#{version}.tar.gz"
       exec 'untar redis',
-        :command => "tar xzvf redis-#{options[:version]}.tar.gz",
+        :command => "tar xzvf redis-#{version}.tar.gz",
         :require => exec('download redis'),
         :cwd     => '/usr/local/src',
-        :creates => "/usr/local/src/redis-#{options[:version]}"
+        :creates => "/usr/local/src/redis-#{version}"
       exec 'compile redis',
         :command => make_command,
         :require => exec('untar redis'),
-        :cwd     => "/usr/local/src/redis-#{options[:version]}",
-        :creates => "/usr/local/src/redis-#{options[:version]}/src/redis-server"
+        :cwd     => "/usr/local/src/redis-#{version}",
+        :creates => "/usr/local/src/redis-#{version}/src/redis-server"
       package 'redis-server',
         :ensure   => :absent,
         :provider => :dpkg,
@@ -38,8 +38,8 @@ module Moonshine
         :command => "redis-cli shutdown; sudo make install",
         :timeout => 0,
         :require => package('redis-server'),
-        :cwd     => "/usr/local/src/redis-#{options[:version]}",
-        :unless => "test -f /usr/local/bin/redis-server && /usr/local/bin/redis-server --version | grep 'Redis server version #{options[:version]}'"
+        :cwd     => "/usr/local/src/redis-#{version}",
+        :unless => "test -f /usr/local/bin/redis-server && /usr/local/bin/redis-server --version | grep 'Redis server version #{version}'"
 
       group 'redis', :ensure =>:present
       user 'redis',
