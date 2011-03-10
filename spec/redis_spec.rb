@@ -45,4 +45,30 @@ describe "A manifest with the Redis plugin" do
     @manifest.packages['redis'].ensure.should == '0.1.1'
   end
 
+  it "should create a log directory" do
+    redis_log_directory = @manifest.files['/var/log/redis']
+    redis_log_directory.should_not be(nil)
+    redis_log_directory[:ensure].should == :directory
+    redis_log_directory[:owner].should == 'redis'
+    redis_log_directory[:group].should == 'redis'
+    redis_log_directory[:mode].should == '755'
+  end
+
+  it "should create a log file" do
+    redis_log_file = @manifest.files['/var/log/redis/redis-server.log']
+    redis_log_file.should_not be(nil)
+    redis_log_file[:owner].should == 'redis'
+    redis_log_file[:group].should == 'redis'
+    redis_log_file[:mode].should == '660'
+  end
+
+  it "should create a log directory" do
+    redis_log_directory = @manifest.files['/var/log/redis']
+    redis_log_directory.should_not be(nil)
+    redis_log_directory[:ensure].should == :directory
+    redis_log_directory[:owner].should == 'redis'
+    redis_log_directory[:group].should == 'redis'
+    redis_log_directory[:mode].should == '755'
+  end
+
 end
