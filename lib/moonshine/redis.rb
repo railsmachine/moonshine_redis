@@ -34,11 +34,17 @@ module Moonshine
         :ensure   => :absent,
         :provider => :dpkg,
         :require   => exec('compile redis')
+      exec 'shutdown redis',
+        :command => "redis-cli shutdown",
+        :timeout => 0,
+        :onlyif => "which redis-cli",
+        :refreshonly => true
       exec 'install redis',
-        :command => "redis-cli shutdown; sudo make install",
+        :command => "sudo make install",
         :timeout => 0,
         :require => package('redis-server'),
         :cwd     => "/usr/local/src/redis-#{version}",
+        :notify => exec('shutdown redis'),
         :unless => "test -f /usr/local/bin/redis-server && /usr/local/bin/redis-server --version | grep 'Redis server version #{version}'"
 
       group 'redis', :ensure =>:present
