@@ -28,6 +28,7 @@ case "$1" in
 	echo -n "Starting $DESC: "
 	touch $PIDFILE
 	chown redis:redis $PIDFILE
+	<%= "ulimit -n #{options[:max_fd]}" if options[:max_fd] %>
 	if start-stop-daemon --start --quiet --umask 007 --pidfile $PIDFILE --chuid redis:redis --exec $DAEMON -- $DAEMON_ARGS
 	then
 		echo "$NAME."
