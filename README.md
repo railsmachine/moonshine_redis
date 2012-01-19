@@ -32,7 +32,7 @@ For example, in <tt>moonshine.yml</tt>:
       :arch: i386
       :ruby_client: 1.0.7
       :enable_on_boot: false
-	    :max_fd: 4096
+      :max_fd: 4096
 
 * Include the recipe in your Moonshine manifest
 
