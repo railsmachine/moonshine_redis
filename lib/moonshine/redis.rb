@@ -9,10 +9,17 @@ module Moonshine
     # Then call the recipe(s) you need:
     #
     #  recipe :redis
+    
     def redis(options={})
       options = HashWithIndifferentAccess.new({ :enable_on_boot => true }.merge(options))
       make_command = options[:arch] || Facter.architecture == 'i386' ? 'make 32bit' : 'make'
-      version = options[:version] || '2.2.11'
+      version = options[:version] || '2.4.17'
+
+      notifies = if redis_restart_on_change
+                   [service('redis')]
+                 else
+                   []
+                 end
 
       package 'wget', :ensure => :installed
       exec 'download redis',
@@ -93,7 +100,7 @@ module Moonshine
       file '/etc/redis/redis.conf',
         :ensure  => :present,
         :mode    => '644',
-        :notify  => service('redis-server'),
+        :notify  => notifies,
         :content => template(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'redis.conf.erb'), binding)
 
       # install client gem if specified
@@ -103,4 +110,11 @@ module Moonshine
     end
 
   end
+  
+  def redis_restart_on_change
+    restart_on_change = configuration[:redis][:restart_on_change]
+    restart_on_change = true if restart_on_change.nil? # nil is true so we have a default value.
+    restart_on_change
+  end
+  
 end
