@@ -151,7 +151,7 @@ maxclients <%= options[:maxclients] || '0' %>
 # IMPORTANT: Check the BGREWRITEAOF to check how to rewrite the append
 # log file in background when it gets too big.
 
-appendonly <%= options[:appendonly] || 'no' %>
+appendonly <%= redis_config_boolean(options[:appendonly],false) %>
 
 # The fsync() call tells the Operating System to actually write data on disk
 # instead to wait for more data in the output buffer. Some OS will really flush 
@@ -169,9 +169,19 @@ appendonly <%= options[:appendonly] || 'no' %>
 # it want, for better performances (but if you can live with the idea of
 # some data loss consider the default persistence mode that's snapshotting).
 
-appendfsync <%= options[:appendfsync] || 'always' %>
+appendfsync <%= options[:appendfsync] || 'everysec' %>
+# appendfsync always
 # appendfsync everysec
 # appendfsync no
+
+<% 
+# Virtual Memory is deprecated in 2.6, so we need to make sure the version is less than 2.6
+version_arr = options[:version].split(".")
+major_version = version_arr[0].to_i
+minor_version = version_arr[1].to_i
+
+if major_version <= 2 && minor_version <= 4
+%>
 
 ################################ VIRTUAL MEMORY ###############################
 
@@ -234,3 +244,5 @@ appendfsync <%= options[:appendfsync] || 'always' %>
 # Virtual Memory implementation.
 #vm-max-threads 4
 <%= "vm-max-threads #{options[:vm_max_threads]}" if options[:vm_max_threads] %>
+
+<% end %>
