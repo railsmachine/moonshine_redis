@@ -1,6 +1,14 @@
 module Moonshine
   module Redis
     
+    def redis_config_boolean(key,default = true)
+      if key.nil?
+        default ? 'yes' : 'no'
+      else
+        ((!!key) == true) ? 'yes' : 'no'
+      end
+    end
+
     # Used in the recipe to decide whether or not to restart redis after config changes.
     def redis_restart_on_change
       restart_on_change = configuration[:redis][:restart_on_change]
@@ -23,7 +31,7 @@ module Moonshine
       version = options[:version] || '2.4.17'
 
       notifies = if redis_restart_on_change
-                   [service('redis')]
+                   [service('redis-server')]
                  else
                    []
                  end

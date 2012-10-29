@@ -151,7 +151,7 @@ maxclients <%= options[:maxclients] || '0' %>
 # IMPORTANT: Check the BGREWRITEAOF to check how to rewrite the append
 # log file in background when it gets too big.
 
-appendonly <%= options[:appendonly] || 'no' %>
+appendonly <%= redis_config_boolean(options[:appendonly],false) %>
 
 # The fsync() call tells the Operating System to actually write data on disk
 # instead to wait for more data in the output buffer. Some OS will really flush 
