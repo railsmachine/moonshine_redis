@@ -1,5 +1,12 @@
 module Moonshine
   module Redis
+    
+    # Used in the recipe to decide whether or not to restart redis after config changes.
+    def redis_restart_on_change
+      restart_on_change = configuration[:redis][:restart_on_change]
+      restart_on_change = true if restart_on_change.nil? # nil is true so we have a default value.
+      restart_on_change
+    end
 
     # Define options for this plugin via the <tt>configure</tt> method
     # in your application manifest (or in moonshine.yml):
@@ -109,12 +116,5 @@ module Moonshine
       end
     end
 
-  end
-  
-  def redis_restart_on_change
-    restart_on_change = configuration[:redis][:restart_on_change]
-    restart_on_change = true if restart_on_change.nil? # nil is true so we have a default value.
-    restart_on_change
-  end
-  
+  end  
 end
