@@ -11,7 +11,7 @@ recipes in general, is Ubuntu/Debian-specific.
 * <tt>script/plugin install git://github.com/railsmachine/moonshine_redis.git</tt>
 * Configure settings if needed. You may specify:
   * Package architecture. Default is amd64.
-  * Version. Default is 2.0.1-2. Versions are those as determined by Debian in [this repo](http://http.us.debian.org/debian/pool/main/r/redis/).
+  * Version. Default is 2.4.17, but should work fine with 2.6+
   * <tt>enable_on_boot</tt> in case you want to disable starting the service on
     boot at system-level (useful if you want god to do it instead, for instance).
     Default is true.
@@ -37,3 +37,31 @@ For example, in <tt>moonshine.yml</tt>:
 * Include the recipe in your Moonshine manifest
 
     recipe :redis
+    
+### Available configuration options in the <code>:redis:</code> section of moonshine.yml, their default and an explanation if needed:
+
+* :version: 2.4.17
+* :restart_on_change: true # should redis restart after its config files change?
+* :port: 6379
+* :bind: 0.0.0.0
+* :loglevel: notice
+* :databases: 16 # Number of databases to run with. 16 should be enough for almost all uses.
+* :saves: # how often to write the rdb file based on number of changes per time period (ie: 1 change, save every 900 seconds)
+  * - 'save 900 1'
+  * - 'save 300 10'
+  * - 'save 60 10000'
+* :rdbcompression: false
+* :slaves: # an array of 'slaveof IP PORT', defaults to none.
+* :masterauth: # defaults to no authentication. If you want a password, :masterauth: should be set to that password.
+* :requirepass: false
+* :maxclients: 0
+* :maxmemory: 0
+* :appendonly: false
+* :appendfsync: everysec # this is the default for redis and the recommended setting.
+* :vm_enabled: false # warning: virtual memory has been removed in 2.6 and won't be added to the config file if you have version set > 2.4
+* :vm_max_memory: # defaults to unset
+* :vm_page_size: # defaults to unset
+* :vm_pages: # defaults to unset
+* :vm_max_threads: # defaults to unset
+
+

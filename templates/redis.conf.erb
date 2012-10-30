@@ -175,12 +175,9 @@ appendfsync <%= options[:appendfsync] || 'everysec' %>
 # appendfsync no
 
 <% 
-# Virtual Memory is deprecated in 2.6, so we need to make sure the version is less than 2.6
-version_arr = options[:version].split(".")
-major_version = version_arr[0].to_i
-minor_version = version_arr[1].to_i
+# Virtual Memory is deprecated in 2.6, so we need to make sure it's supported before putting the settings in.
 
-if major_version <= 2 && minor_version <= 4
+if redis_supports_virtual_memory?
 %>
 
 ################################ VIRTUAL MEMORY ###############################

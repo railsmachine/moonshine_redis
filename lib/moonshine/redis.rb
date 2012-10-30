@@ -1,11 +1,22 @@
 module Moonshine
   module Redis
     
-    def redis_config_boolean(key,default = true)
+    # converts 'truey' things to 'yes' and 'falsey' things to 'no' to fit the redis config file conventions.
+    def redis_config_boolean(key, default = true)
       if key.nil?
         default ? 'yes' : 'no'
       else
         ((!!key) == true) ? 'yes' : 'no'
+      end
+    end
+
+    # Checks version of Redis do determine if it supports virtual memory.
+    def redis_supports_virtual_memory?
+      major, minor, patch = *configuration[:redis][:version].split('.')
+      if (major.to_i <= 2 && minor.to_i <= 4)
+        true
+      else
+        false
       end
     end
 
