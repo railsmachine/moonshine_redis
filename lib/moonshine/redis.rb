@@ -12,7 +12,7 @@ module Moonshine
 
     # Checks version of Redis do determine if it supports virtual memory.
     def redis_supports_virtual_memory?
-      major, minor, patch = *configuration[:redis][:version].split('.')
+      major, minor, patch = *(configuration[:redis][:version] || '2.4.17').split('.')
       if (major.to_i <= 2 && minor.to_i <= 4)
         true
       else
