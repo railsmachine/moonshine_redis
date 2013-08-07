@@ -64,4 +64,11 @@ For example, in <tt>moonshine.yml</tt>:
 * :vm_pages: # defaults to unset
 * :vm_max_threads: # defaults to unset
 
+## Virtual Memory and Redis
 
+We *highly* recommend setting the sysctl setting <code>vm.overcommit_memory</code>.  Thankfully, [moonshine_systcl](http://github.com/railsmachine/moonshine_sysctl) can help with this.  Just install the plugin and then add the following the config/moonshine.yml:
+
+<pre><code>:sysctl:
+  vm.overcommit_memory: 1</code></pre>
+
+You'll also need to add <code>recipe :sysctl</code> to your manifest.
