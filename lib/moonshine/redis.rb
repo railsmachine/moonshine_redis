@@ -49,7 +49,7 @@ module Moonshine
 
       package 'wget', :ensure => :installed
       exec 'download redis',
-        :command => "wget http://redis.googlecode.com/files/redis-#{version}.tar.gz",
+        :command => "wget http://download.redis.io/releases/redis-#{version}.tar.gz",
         :require => package('wget'),
         :cwd     => '/usr/local/src',
         :creates => "/usr/local/src/redis-#{version}.tar.gz"
