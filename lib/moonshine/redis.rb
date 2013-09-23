@@ -39,7 +39,7 @@ module Moonshine
     def redis(options={})
       options = HashWithIndifferentAccess.new({ :enable_on_boot => true }.merge(options))
       make_command = options[:arch] || Facter.architecture == 'i386' ? 'make 32bit' : 'make'
-      version = options[:version] || '2.4.17'
+      version = options[:version] || '2.6.16'
 
       notifies = if redis_restart_on_change
                    [service('redis-server')]
@@ -78,7 +78,7 @@ module Moonshine
         :require => package('redis-server'),
         :cwd     => "/usr/local/src/redis-#{version}",
         :notify => exec('shutdown redis'),
-        :unless => "test -f /usr/local/bin/redis-server && /usr/local/bin/redis-server --version | grep 'Redis server version #{version}'"
+        :unless => "test -f /usr/local/bin/redis-server && /usr/local/bin/redis-server --version | grep '#{version} '"
 
       group 'redis', :ensure =>:present
       user 'redis',
