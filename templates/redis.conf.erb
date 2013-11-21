@@ -51,7 +51,9 @@ databases <%= options[:databases] || '16' %>
 #   after 300 sec (5 min) if at least 10 keys changed
 #   after 60 sec if at least 10000 keys changed
 <% if options[:saves] %>
-<%= options[:saves].map { |save| "#{save}\n" } %>
+<% options[:saves].each do |save| %>
+<%= save %>
+<% end %>
 <% else %>
 save 900 1
 save 300 10
