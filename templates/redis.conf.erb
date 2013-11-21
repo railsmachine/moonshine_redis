@@ -102,6 +102,8 @@ dir /var/lib/redis
 
 <%= "requirepass #{options[:requirepass]}" if options[:requirepass] %>
 
+<% unless options[:maxclients].nil? %>
+
 ################################### LIMITS ####################################
 
 # Set the max number of connected clients at the same time. By default there
@@ -111,6 +113,8 @@ dir /var/lib/redis
 # an error 'max number of clients reached'.
 
 maxclients <%= options[:maxclients] || '0' %>
+
+<% end %>
 
 # Don't use more memory than the specified amount of bytes.
 # When the memory limit is reached Redis will try to remove keys with an
