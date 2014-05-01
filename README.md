@@ -72,3 +72,6 @@ We *highly* recommend setting the sysctl setting <code>vm.overcommit_memory</cod
   vm.overcommit_memory: 1</code></pre>
 
 You'll also need to add <code>recipe :sysctl</code> to your manifest.
+
+***
+Unless otherwise specified, all content copyright &copy; 2014, [Rails Machine, LLC](http://railsmachine.com)
