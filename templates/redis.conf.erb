@@ -17,7 +17,7 @@ port <%= options[:port] || '6379' %>
 <%= "bind #{options[:bind]}" if options[:bind] %>
 
 # Close the connection after a client is idle for N seconds (0 to disable)
-timeout <%= options[:timeout] || '300' %>
+timeout <%= options[:timeout] || '0' %>
 
 # Set server verbosity to 'debug'
 # it can be one of:
