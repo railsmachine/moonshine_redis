@@ -137,6 +137,40 @@ maxclients <%= options[:maxclients] || '0' %>
 
 <%= "maxmemory #{options[:maxmemory]}" if options[:maxmemory] %>
 
+# MAXMEMORY POLICY: how Redis will select what to remove when maxmemory
+# is reached. You can select among five behaviors:
+# 
+# volatile-lru -> remove the key with an expire set using an LRU algorithm
+# allkeys-lru -> remove any key accordingly to the LRU algorithm
+# volatile-random -> remove a random key with an expire set
+# allkeys-random -> remove a random key, any key
+# volatile-ttl -> remove the key with the nearest expire time (minor TTL)
+# noeviction -> don't expire at all, just return an error on write operations
+# 
+# Note: with any of the above policies, Redis will return an error on write
+#       operations, when there are not suitable keys for eviction.
+#
+#       At the date of writing this commands are: set setnx setex append
+#       incr decr rpush lpush rpushx lpushx linsert lset rpoplpush sadd
+#       sinter sinterstore sunion sunionstore sdiff sdiffstore zadd zincrby
+#       zunionstore zinterstore hset hsetnx hmset hincrby incrby decrby
+#       getset mset msetnx exec sort
+#
+# The default is:
+#
+# maxmemory-policy volatile-lru
+<%= "maxmemory-policy #{options[:maxmemory_policy]}" if options[:maxmemory_policy] %>
+
+
+# LRU and minimal TTL algorithms are not precise algorithms but approximated
+# algorithms (in order to save memory), so you can select as well the sample
+# size to check. For instance for default Redis will check three keys and
+# pick the one that was used less recently, you can change the sample size
+# using the following configuration directive.
+#
+# maxmemory-samples 3
+<%= "maxmemory-samples #{options[:maxmemory_samples]}" if options[:maxmemory_samples] %>
+
 ############################## APPEND ONLY MODE ###############################
 
 # By default Redis asynchronously dumps the dataset on disk. If you can live
