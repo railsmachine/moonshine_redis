@@ -1,6 +1,6 @@
 module Moonshine
   module Redis
-    
+
     # converts 'truey' things to 'yes' and 'falsey' things to 'no' to fit the redis config file conventions.
     def redis_config_boolean(key, default = true)
       if key.nil?
@@ -35,10 +35,10 @@ module Moonshine
     # Then call the recipe(s) you need:
     #
     #  recipe :redis
-    
+
     def redis(options={})
       options = HashWithIndifferentAccess.new({ :enable_on_boot => true }.merge(options))
-      make_command = options[:arch] || Facter.architecture == 'i386' ? 'make 32bit' : 'make'
+      make_command = options[:arch] || Facter.value(:architecture) == 'i386' ? 'make 32bit' : 'make'
       version = options[:version] || '2.6.16'
 
       notifies = if redis_restart_on_change
@@ -135,5 +135,5 @@ module Moonshine
       end
     end
 
-  end  
+  end
 end
